@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import com.google.gson.Gson
 import com.mayokunadeniyi.instantweather.BuildConfig
+import com.mayokunadeniyi.instantweather.utils.AppIdInterceptor
 import com.mayokunadeniyi.instantweather.utils.LocationLiveData
 import com.mayokunadeniyi.instantweather.utils.SharedPreferenceHelper
 import com.readystatesoftware.chuck.ChuckInterceptor
@@ -14,8 +15,8 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import timber.log.Timber
 import java.util.concurrent.TimeUnit
+import javax.inject.Named
 import javax.inject.Singleton
 
 /**
@@ -23,7 +24,7 @@ import javax.inject.Singleton
  */
 
 @Module
-class AppModule {
+open class AppModule {
 
     @Provides
     @Singleton
@@ -45,8 +46,15 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(interceptor: HttpLoggingInterceptor): OkHttpClient {
-        return OkHttpClient.Builder().addInterceptor(interceptor).build()
+    fun provideOkHttpClient(appIdInterceptor: AppIdInterceptor, loggingInterceptor: HttpLoggingInterceptor, chuckInterceptor: ChuckInterceptor): OkHttpClient {
+        val builder = OkHttpClient.Builder()
+        builder.addInterceptor(appIdInterceptor)
+        builder.addInterceptor(loggingInterceptor)
+        if (BuildConfig.DEBUG) {
+            builder.addInterceptor(chuckInterceptor)
+        }
+        builder.readTimeout(60, TimeUnit.SECONDS)
+        return builder.build()
     }
 
     @Provides
@@ -59,6 +67,18 @@ class AppModule {
                 HttpLoggingInterceptor.Level.NONE
             }
         }
+    }
+
+    @Provides
+    @Singleton
+    fun provideAppIdInterceptor(): AppIdInterceptor {
+        return AppIdInterceptor()
+    }
+
+    @Provides
+    @Singleton
+    fun provideChuckInterceptor(context: Context): ChuckInterceptor {
+        return ChuckInterceptor(context)
     }
 
     @Provides
@@ -76,35 +96,11 @@ class AppModule {
     fun provideRetrofitBuilder(
         client: Lazy<OkHttpClient>,
         converterFactory: GsonConverterFactory,
-        context: Context
+        @Named("BASE_URL") baseUrl: String
     ): Retrofit {
-        val retrofitBuilder = Retrofit.Builder()
-            .baseUrl(BuildConfig.BASE_URL)
+        return Retrofit.Builder()
+            .baseUrl(baseUrl)
             .client(client.get())
-            .addConverterFactory(converterFactory)
-
-        val okHttpClientBuilder = OkHttpClient.Builder()
-            .addInterceptor { chain ->
-
-                val original = chain.request()
-                val originalHttpUrl = original.url
-
-                val url = originalHttpUrl.newBuilder()
-                    .addQueryParameter("appid", BuildConfig.API_KEY)
-                    .build()
-
-                Timber.d("Started making network call")
-
-                val requestBuilder = original.newBuilder()
-                    .url(url)
-
-                val request = requestBuilder.build()
-                return@addInterceptor chain.proceed(request)
-            }
-            .readTimeout(60, TimeUnit.SECONDS)
-        if (BuildConfig.DEBUG) {
-            okHttpClientBuilder.addInterceptor(ChuckInterceptor(context))
-        }
-        return retrofitBuilder.client(okHttpClientBuilder.build()).build()
+            .addConverterFactory(converterFactory).build()
     }
 }

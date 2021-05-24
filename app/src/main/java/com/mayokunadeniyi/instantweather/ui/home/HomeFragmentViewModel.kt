@@ -73,6 +73,7 @@ class HomeFragmentViewModel @Inject constructor(
         }
     }
 
+    // TODO сделать возможность мокания
     @SuppressLint("SimpleDateFormat")
     fun currentSystemTime(): String {
         val currentTime = System.currentTimeMillis()

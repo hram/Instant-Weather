@@ -13,3 +13,6 @@
 .externalNativeBuild
 .cxx
 apikey.properties
+/build/
+/buildSrc/build/
+/build/

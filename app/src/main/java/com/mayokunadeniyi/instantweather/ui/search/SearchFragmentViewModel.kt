@@ -11,15 +11,9 @@ import com.algolia.instantsearch.helper.android.list.SearcherSingleIndexDataSour
 import com.algolia.instantsearch.helper.android.searchbox.SearchBoxConnectorPagedList
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.stats.StatsConnector
-import com.algolia.search.client.ClientSearch
-import com.algolia.search.model.APIKey
-import com.algolia.search.model.ApplicationID
-import com.algolia.search.model.IndexName
-import com.mayokunadeniyi.instantweather.BuildConfig
 import com.mayokunadeniyi.instantweather.data.model.SearchResult
 import com.mayokunadeniyi.instantweather.data.model.Weather
 import com.mayokunadeniyi.instantweather.data.source.repository.WeatherRepository
-import com.mayokunadeniyi.instantweather.utils.ALGOLIA_INDEX_NAME
 import com.mayokunadeniyi.instantweather.utils.Result
 import com.mayokunadeniyi.instantweather.utils.asLiveData
 import kotlinx.coroutines.launch
@@ -29,17 +23,7 @@ import javax.inject.Inject
  * Created by Mayokun Adeniyi on 27/04/2020.
  */
 
-class SearchFragmentViewModel @Inject constructor(private val repository: WeatherRepository) :
-    ViewModel() {
-
-    private val applicationID = BuildConfig.ALGOLIA_APP_ID
-    private val algoliaAPIKey = BuildConfig.ALGOLIA_API_KEY
-    private val client = ClientSearch(
-        ApplicationID(applicationID),
-        APIKey(algoliaAPIKey)
-    )
-    private val index = client.initIndex(IndexName(ALGOLIA_INDEX_NAME))
-    private val searcher = SearcherSingleIndex(index)
+class SearchFragmentViewModel @Inject constructor(private val searcher: SearcherSingleIndex, private val repository: WeatherRepository) : ViewModel() {
 
     private val dataSourceFactory = SearcherSingleIndexDataSource.Factory(searcher) { hit ->
         SearchResult(

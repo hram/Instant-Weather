@@ -38,6 +38,7 @@ android {
         versionCode(Config.versionCode)
         versionName(Config.versionName)
         testInstrumentationRunner(Config.testInstrumentationRunner)
+        testInstrumentationRunnerArguments(mapOf("clearPackageData" to "true"))
 
         buildConfigField("String", "API_KEY", getProperty(API_KEY))
         buildConfigField("String", "ALGOLIA_API_KEY", getProperty(ALGOLIA_API_KEY))
@@ -58,15 +59,6 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-        }
-    }
-
-
-
-    android {
-        sourceSets {
-            getByName("test").java.srcDir("src/sharedTest/java")
-            getByName("androidTest").java.srcDir("src/sharedTest/java")
         }
     }
 
@@ -107,6 +99,16 @@ android {
         exclude("META-INF/ASL2.0")
         exclude("META-INF/*.kotlin_module")
     }
+
+    configurations.all {
+        resolutionStrategy {
+            exclude("org.jetbrains.kotlinx", "kotlinx-coroutines-debug")
+        }
+    }
+
+    testOptions {
+        execution = "ANDROIDX_TEST_ORCHESTRATOR"
+    }
 }
 
 
@@ -137,6 +139,8 @@ dependencies {
     implementation(Network.retrofit)
     implementation(Network.gsonConverter)
     implementation(Network.gson)
+
+    implementation("com.squareup.okhttp3:okhttp-tls:4.9.1")
 
     //Preferences
     implementation(AndroidX.preferences)
@@ -180,6 +184,9 @@ dependencies {
     implementation(Dagger.daggerAndroid)
     kapt(Dagger.daggerProcessor)
     implementation(Dagger.daggerAndroidSupport)
+    //Enable dagger compiler also in androidTest folder
+    kaptAndroidTest(Dagger.daggerCompiler)
+    kaptAndroidTest(Dagger.daggerProcessor)
 
     //OKHttp Logging Interceptor
     implementation(Network.okhttpInterceptor)
@@ -204,17 +211,23 @@ dependencies {
     testImplementation(UnitTest.mockitoCore)
 
     // AndroidX Test - Instrumented testing
-    androidTestImplementation(UnitTest.mockitoCore)
-    androidTestImplementation(AndroidX.testExt)
+    //androidTestImplementation(UnitTest.mockitoCore)
+    //androidTestImplementation(AndroidX.testExt)
     androidTestImplementation(AndroidTest.espresso)
     androidTestImplementation(AndroidTest.espressoContrib)
     androidTestImplementation(AndroidTest.espressoIntent)
     androidTestImplementation(AndroidX.archCoreTesting)
-    androidTestImplementation(AndroidX.coreKtxTest)
-    androidTestImplementation(AndroidX.testRules)
+    //androidTestImplementation(AndroidX.coreKtxTest)
     androidTestImplementation(Kotlin.coroutineTest)
 
-    //Until the bug at https://issuetracker.google.com/128612536 is fixed
-    debugImplementation(AndroidX.fragmentTesting)
-    implementation(AndroidTest.idlingResource)
+    androidTestImplementation("androidx.test.ext:junit:1.1.2")
+    androidTestImplementation("androidx.test.ext:truth:1.3.0")
+    androidTestImplementation("androidx.test:runner:1.3.0")
+    androidTestUtil("androidx.test:orchestrator:1.3.0")
+    androidTestImplementation("com.squareup.okhttp3:mockwebserver:4.8.1")
+    androidTestImplementation("com.squareup.okhttp3:okhttp-tls:4.9.1")
+    androidTestImplementation("com.kaspersky.android-components:kaspresso:1.2.0")
+    androidTestImplementation("com.github.infeez:kotlin-mock-server:0.7.5")
+    androidTestImplementation("com.jraska:falcon:2.1.1")
+    androidTestImplementation("androidx.test.uiautomator:uiautomator:2.2.0")
 }
