@@ -1,9 +1,9 @@
 package com.mayokunadeniyi.instantweather.kaspresso.screen
 
 import android.view.View
+import com.agoda.kakao.common.views.KView
 import com.agoda.kakao.recycler.KRecyclerItem
 import com.agoda.kakao.recycler.KRecyclerView
-import com.agoda.kakao.swiperefresh.KSwipeRefreshLayout
 import com.agoda.kakao.text.KTextView
 import com.mayokunadeniyi.instantweather.R
 import com.mayokunadeniyi.instantweather.ui.search.SearchFragment
@@ -15,7 +15,7 @@ object SearchScreen : KScreen<SearchScreen>() {
 
     override val viewClass: Class<*> = SearchFragment::class.java
 
-    val root = KSwipeRefreshLayout { withId(R.id.fragment_search_root) }
+    private val root = KView { withId(R.id.fragment_search_root) }
 
     val recycler: KRecyclerView = KRecyclerView({
         withId(R.id.location_search_recyclerview)

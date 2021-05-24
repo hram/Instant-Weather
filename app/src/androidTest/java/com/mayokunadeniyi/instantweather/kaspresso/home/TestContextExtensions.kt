@@ -18,16 +18,16 @@ fun TestContext<TestCaseDsl>.stepStartAppAndCheckHomeScreen() {
                 settingsButton { isNotSelected() }
 
                 HomeScreen {
-                    weatherIn { hasText("Novaya Gollandiya") }
+                    weatherIn { hasText(data.weatherIn) }
                     date { hasAnyText() } // TODO замокать время
                     icon { isDisplayed() }
-                    temperature { hasText("14.25℃") }
-                    main { hasText("Clouds") }
+                    temperature { hasText(data.temperature) }
+                    main { hasText(data.main) }
                     error { isNotDisplayed() }
                     detail { isDisplayed() }
-                    humidity { hasText("95.0%") }
-                    pressure { hasText("1000.0hPa") }
-                    windSpeed { hasText("2.72m/s") }
+                    humidity { hasText(data.humidity) }
+                    pressure { hasText(data.pressure) }
+                    windSpeed { hasText(data.windSpeed) }
                 }
             }
         }
@@ -60,20 +60,17 @@ fun TestContext<TestCaseDsl>.stepHomeScreenSwipeToRefreshAndCheckHomeScreen() {
             swipeRefresh {
                 swipeDown()
             }
-
             expected("Отображается Home экран c текущей погодой") {
-                HomeScreen {
-                    weatherIn { hasText("Novaya Gollandiya") }
-                    date { hasAnyText() } // TODO замокать время
-                    icon { isDisplayed() }
-                    temperature { hasText("14.25℃") }
-                    main { hasText("Clouds") }
-                    error { isNotDisplayed() }
-                    detail { isDisplayed() }
-                    humidity { hasText("95.0%") }
-                    pressure { hasText("1000.0hPa") }
-                    windSpeed { hasText("2.72m/s") }
-                }
+                weatherIn { hasText(data.weatherIn) }
+                date { hasAnyText() } // TODO замокать время
+                icon { isDisplayed() }
+                temperature { hasText(data.temperature) }
+                main { hasText(data.main) }
+                error { isNotDisplayed() }
+                detail { isDisplayed() }
+                humidity { hasText(data.humidity) }
+                pressure { hasText(data.pressure) }
+                windSpeed { hasText(data.windSpeed) }
             }
         }
     }

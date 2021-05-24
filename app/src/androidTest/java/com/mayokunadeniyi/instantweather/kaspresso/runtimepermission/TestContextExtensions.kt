@@ -47,9 +47,10 @@ fun TestContext<TestCaseDsl>.stepRuntimePermissionDialogScreenAllowAndCheckMainS
                 forecastButton { isDisplayed() }
                 searchButton { isDisplayed() }
                 settingsButton { isDisplayed() }
-            }
-            HomeScreen {
 
+                HomeScreen {
+
+                }
             }
         }
     }
@@ -68,9 +69,10 @@ fun TestContext<TestCaseDsl>.stepRuntimePermissionDialogScreenDenyAndNeverAskAnd
                 forecastButton { isDisplayed() }
                 searchButton { isDisplayed() }
                 settingsButton { isDisplayed() }
-            }
-            HomeScreen {
 
+                HomeScreen {
+
+                }
             }
         }
     }

@@ -34,5 +34,10 @@ annotation class TestCaseDslMarker
 
 @TestCaseDslMarker
 class TestCaseDsl {
-
+    lateinit var weatherIn: String
+    lateinit var temperature: String
+    lateinit var main: String
+    lateinit var humidity: String
+    lateinit var pressure: String
+    lateinit var windSpeed: String
 }

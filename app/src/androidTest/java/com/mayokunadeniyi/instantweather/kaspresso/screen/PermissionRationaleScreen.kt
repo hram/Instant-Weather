@@ -1,6 +1,5 @@
 package com.mayokunadeniyi.instantweather.kaspresso.screen
 
-import android.app.AlertDialog
 import com.kaspersky.components.kautomator.component.text.UiButton
 import com.kaspersky.components.kautomator.component.text.UiTextView
 import com.kaspersky.components.kautomator.screen.UiScreen

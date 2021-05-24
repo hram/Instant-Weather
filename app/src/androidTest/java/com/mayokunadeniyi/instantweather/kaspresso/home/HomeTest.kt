@@ -25,6 +25,13 @@ class HomeTest : BaseAndroidTest() {
         "Основной позитивный сценарий запуска приложения и отображения текущей погоды",
         precondition, {
             add(Mocks.weatherNovayaGollandiyaSuccess)
+        }, init = {
+            weatherIn = "Novaya Gollandiya"
+            temperature = "14.25℃"
+            main = "Clouds"
+            humidity = "95.0%"
+            pressure = "1000.0hPa"
+            windSpeed = "2.72m/s"
         },
         before = {
             activityTestRule.launchActivity(null)
@@ -38,6 +45,13 @@ class HomeTest : BaseAndroidTest() {
         "Ошибка загрузки погоды и успешное обновление",
         precondition, {
             add(Mocks.weather500)
+        }, init = {
+            weatherIn = "Novaya Gollandiya"
+            temperature = "14.25℃"
+            main = "Clouds"
+            humidity = "95.0%"
+            pressure = "1000.0hPa"
+            windSpeed = "2.72m/s"
         },
         before = {
             activityTestRule.launchActivity(null)

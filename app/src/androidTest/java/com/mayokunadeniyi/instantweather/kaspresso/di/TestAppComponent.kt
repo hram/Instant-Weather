@@ -12,7 +12,6 @@ import com.mayokunadeniyi.instantweather.di.module.MainActivityModule
 import com.mayokunadeniyi.instantweather.di.module.NetworkModule
 import com.mayokunadeniyi.instantweather.di.module.RepositoryModule
 import com.mayokunadeniyi.instantweather.di.module.ViewModelModule
-import com.mayokunadeniyi.instantweather.kaspresso.BaseAndroidTest
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule

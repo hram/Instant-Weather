@@ -1,8 +1,5 @@
 package com.mayokunadeniyi.instantweather.kaspresso.screen
 
-import com.agoda.kakao.common.views.KView
-import com.agoda.kakao.text.KButton
-import com.agoda.kakao.text.KTextView
 import com.kaspersky.components.kautomator.component.text.UiButton
 import com.kaspersky.components.kautomator.screen.UiScreen
 import java.util.regex.Pattern
