@@ -11,6 +11,9 @@ import androidx.lifecycle.observe
 import com.mayokunadeniyi.instantweather.R
 import com.mayokunadeniyi.instantweather.databinding.FragmentForecastBinding
 import com.mayokunadeniyi.instantweather.ui.BaseFragment
+import com.mayokunadeniyi.instantweather.ui.forecast.ForecastFragmentViewModel.Companion.EMPTY
+import com.mayokunadeniyi.instantweather.ui.forecast.ForecastFragmentViewModel.Companion.ERROR
+import com.mayokunadeniyi.instantweather.ui.forecast.ForecastFragmentViewModel.Companion.SUCCESS
 import com.mayokunadeniyi.instantweather.ui.forecast.WeatherForecastAdapter.ForecastOnclickListener
 import com.mayokunadeniyi.instantweather.utils.SharedPreferenceHelper
 import com.mayokunadeniyi.instantweather.utils.convertCelsiusToFahrenheit
@@ -65,8 +68,23 @@ class ForecastFragment : BaseFragment() {
 
             dataFetchState.observe(viewLifecycleOwner) { state ->
                 binding.apply {
-                    forecastRecyclerview.isVisible = state
-                    forecastErrorText?.isVisible = !state
+                    when (state) {
+                        SUCCESS -> {
+                            forecastErrorText?.isVisible = false
+                            emptyListText.isVisible = false
+                            forecastRecyclerview.isVisible = true
+                        }
+                        ERROR -> {
+                            forecastRecyclerview.isVisible = false
+                            emptyListText.isVisible = false
+                            forecastErrorText?.isVisible = true
+                        }
+                        EMPTY -> {
+                            forecastRecyclerview.isVisible = false
+                            forecastErrorText?.isVisible = false
+                            emptyListText.isVisible = true
+                        }
+                    }
                 }
             }
 

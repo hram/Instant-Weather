@@ -25,7 +25,7 @@ class ForecastFragmentViewModel @Inject constructor(
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading = _isLoading.asLiveData()
 
-    private val _dataFetchState = MutableLiveData<Boolean>()
+    private val _dataFetchState = MutableLiveData<Int>()
     val dataFetchState = _dataFetchState.asLiveData()
 
     fun getWeatherForecast(cityId: Int?) {
@@ -36,7 +36,7 @@ class ForecastFragmentViewModel @Inject constructor(
                     _isLoading.postValue(false)
                     if (!result.data.isNullOrEmpty()) {
                         val forecasts = result.data
-                        _dataFetchState.value = true
+                        _dataFetchState.value = SUCCESS
                         _forecast.value = forecasts
                     } else {
                         refreshForecastData(cityId)
@@ -53,30 +53,44 @@ class ForecastFragmentViewModel @Inject constructor(
             when (val result = repository.getForecastWeather(cityId!!, true)) {
                 is Result.Success -> {
                     _isLoading.postValue(false)
-                    if (result.data != null) {
-                        val forecast = result.data.apply {
-                            forEach {
-                                it.networkWeatherCondition.temp =
-                                    convertKelvinToCelsius(it.networkWeatherCondition.temp)
+                    when {
+                        result.data?.isNotEmpty() == true -> {
+                            val forecast = result.data.apply {
+                                forEach {
+                                    it.networkWeatherCondition.temp =
+                                        convertKelvinToCelsius(it.networkWeatherCondition.temp)
+                                }
                             }
+                            _forecast.postValue(forecast)
+                            _dataFetchState.postValue(SUCCESS)
+                            repository.deleteForecastData()
+                            repository.storeForecastData(forecast)
                         }
-                        _forecast.postValue(forecast)
-                        _dataFetchState.postValue(true)
-                        repository.deleteForecastData()
-                        repository.storeForecastData(forecast)
-                    } else {
-                        _dataFetchState.postValue(false)
-                        _forecast.postValue(null)
+                        result.data?.isEmpty() == true -> {
+                            repository.deleteForecastData()
+                            _dataFetchState.postValue(EMPTY)
+                            _forecast.postValue(null)
+                        }
+                        else -> {
+                            _dataFetchState.postValue(ERROR)
+                            _forecast.postValue(null)
+                        }
                     }
                 }
 
                 is Result.Error -> {
-                    _dataFetchState.value = false
+                    _dataFetchState.value = ERROR
                     _isLoading.value = false
                 }
 
                 is Result.Loading -> _isLoading.postValue(true)
             }
         }
+    }
+
+    companion object {
+        const val SUCCESS = 0
+        const val ERROR = 1
+        const val EMPTY = 2
     }
 }

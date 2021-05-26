@@ -40,4 +40,24 @@ class TestCaseDsl {
     lateinit var humidity: String
     lateinit var pressure: String
     lateinit var windSpeed: String
+    var forecastSize: Int = 0
+    val forecast = mutableListOf<ForecastDsl>()
+
+    fun forecast(block: ForecastDsl.() -> Unit) {
+        val dslBuilder = ForecastDsl()
+        dslBuilder.apply(block)
+        forecast += dslBuilder
+    }
+}
+
+@TestCaseDslMarker
+class ForecastDsl {
+    var index: Int = -1
+    lateinit var main: String
+    lateinit var description: String
+    lateinit var temperature: String
+    lateinit var humidity: String
+    lateinit var pressure: String
+    lateinit var speed: String
+    lateinit var date: String
 }

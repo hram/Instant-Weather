@@ -2,6 +2,7 @@ package com.mayokunadeniyi.instantweather.kaspresso.di
 
 import android.app.Application
 import com.mayokunadeniyi.instantweather.InstantWeatherApplication
+import com.mayokunadeniyi.instantweather.data.source.repository.WeatherRepository
 import com.mayokunadeniyi.instantweather.di.component.AppComponent
 import com.mayokunadeniyi.instantweather.di.module.AlgoliaModule
 import com.mayokunadeniyi.instantweather.di.module.AppModule
@@ -30,6 +31,8 @@ interface TestAppComponent : AppComponent {
     override fun inject(application: InstantWeatherApplication)
 
     fun getMockWebServer(): MockWebServer
+
+    fun getWeatherRepository(): WeatherRepository
 
     @Component.Builder
     interface Builder {

@@ -4,28 +4,30 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="weatherForecast"
             type="com.mayokunadeniyi.instantweather.data.model.WeatherForecast" />
+
         <variable
             name="weatherForecastDescription"
             type="com.mayokunadeniyi.instantweather.data.model.NetworkWeatherDescription" />
     </data>
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <com.skydoves.elasticviews.ElasticCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="8dp"
-            app:cardBackgroundColor="@color/primaryLightColor"
+            android:layout_margin="17dp"
             android:elevation="12dp"
+            app:cardBackgroundColor="@color/primaryLightColor"
+            app:cardCornerRadius="8dp"
             app:cardView_duration="250"
-            app:cardView_scale="0.8"
-            android:layout_margin="17dp">
+            app:cardView_scale="0.8">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -57,22 +59,22 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_marginStart="10dp"
-                    android:textSize="27sp"
-                    android:textColor="#FFFFFF"
-                    android:text="@{weatherForecastDescription.main}"
                     android:layout_marginTop="20dp"
+                    android:text="@{weatherForecastDescription.main}"
+                    android:textColor="#FFFFFF"
+                    android:textSize="27sp"
                     tools:text="Clouds" />
 
                 <com.github.pwittchen.weathericonview.WeatherIconView
                     android:id="@+id/weather_icon"
+                    setIcon="@{weatherForecastDescription.description}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:weatherIconSize="50"
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="20dp"
                     android:layout_marginEnd="20dp"
-                    setIcon="@{weatherForecastDescription.description}"
-                    app:weatherIconColor="#FFFFFF" />
+                    app:weatherIconColor="#FFFFFF"
+                    app:weatherIconSize="50" />
 
                 <TextView
                     android:id="@+id/weather_description"
@@ -80,10 +82,10 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/weather_main"
                     android:layout_marginStart="10dp"
-                    android:textSize="14sp"
-                    android:textColor="#FFFFFF"
                     android:layout_marginTop="5dp"
                     android:text="@{weatherForecastDescription.description}"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp"
                     tools:text="Very cloudy" />
 
                 <TextView
@@ -92,11 +94,11 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/weather_description"
                     android:layout_marginStart="10dp"
-                    android:textColor="#FFFFFF"
                     android:layout_marginTop="25dp"
                     android:layout_marginEnd="140dp"
-                    app:setTemperature="@{weatherForecast.networkWeatherCondition.temp}"
+                    android:textColor="#FFFFFF"
                     android:textSize="18sp"
+                    app:setTemperature="@{weatherForecast.networkWeatherCondition.temp}"
                     tools:text="36\u2103" />
 
                 <LinearLayout
@@ -108,65 +110,71 @@
                     android:layout_marginTop="25dp"
                     android:orientation="horizontal"
                     android:weightSum="6">
+
                     <ImageView
                         android:id="@+id/imageView12"
                         style="@style/weather_item_icons"
-                        app:srcCompat="@drawable/ic_humidity"
-                        android:tint="#FFFFFF"/>
+                        android:tint="#FFFFFF"
+                        app:srcCompat="@drawable/ic_humidity" />
+
                     <TextView
+                        android:id="@+id/text_humidity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
-                        android:textColor="#FFFFFF"
                         android:layout_weight="1"
                         android:text="@{String.valueOf(weatherForecast.networkWeatherCondition.humidity).concat(@string/humidity_symbol)}"
+                        android:textColor="#FFFFFF"
                         android:textSize="14sp"
                         tools:text="40" />
 
                     <ImageView
                         android:id="@+id/imageView11"
                         style="@style/weather_item_icons"
-                        app:srcCompat="@drawable/ic_pressure"
-                        android:tint="#FFFFFF"/>
+                        android:tint="#FFFFFF"
+                        app:srcCompat="@drawable/ic_pressure" />
 
                     <TextView
+                        android:id="@+id/text_pressure"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
                         android:layout_weight="1"
-                        android:textColor="#FFFFFF"
                         android:text="@{String.valueOf(weatherForecast.networkWeatherCondition.pressure).concat(@string/pressure_symbol)}"
+                        android:textColor="#FFFFFF"
                         android:textSize="14sp"
                         tools:text="40" />
 
                     <ImageView
                         android:id="@+id/imageView10"
-                        app:srcCompat="@drawable/ic_wind"
                         style="@style/weather_item_icons"
-                        android:tint="#FFFFFF"/>
+                        android:tint="#FFFFFF"
+                        app:srcCompat="@drawable/ic_wind" />
 
                     <TextView
+                        android:id="@+id/text_speed"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
                         android:layout_weight="1"
-                        android:textColor="#FFFFFF"
                         android:text="@{String.valueOf(weatherForecast.wind.speed).concat(@string/wind_speed_symbol)}"
+                        android:textColor="#FFFFFF"
                         android:textSize="14sp"
                         tools:text="40" />
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/text_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="March, 13, 2020"
-                    android:text="@{weatherForecast.date}"
+                    android:layout_below="@id/weather_details"
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="5dp"
-                    android:textColor="#FFFFFF"
                     android:layout_marginEnd="20dp"
                     android:layout_marginBottom="10dp"
-                    android:layout_below="@id/weather_details" />
+                    android:text="@{weatherForecast.date}"
+                    android:textColor="#FFFFFF"
+                    tools:text="March, 13, 2020" />
             </RelativeLayout>
         </com.skydoves.elasticviews.ElasticCardView>
     </LinearLayout>

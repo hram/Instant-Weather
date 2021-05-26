@@ -28,6 +28,25 @@ object Mocks {
         }
     }
 
+    val forecastNovayaGollandiyaSuccess = MockEnqueueResponse {
+        doResponseWithMatcher(rulePath startWith "/data/2.5/forecast") {
+            readFromResource("data/2.5/forecast/novaya_gollandiya.json")
+        }
+    }
+
+    val forecast500 = MockEnqueueResponse {
+        doResponseWithMatcher(rulePath startWith "/data/2.5/forecast") {
+            responseStatusCode = 500
+            emptyBody()
+        }
+    }
+
+    val forecastEmpty = MockEnqueueResponse {
+        doResponseWithMatcher(rulePath startWith "/data/2.5/forecast") {
+            fromString("""{"list":[]}""")
+        }
+    }
+
     infix fun MockResponseBuilder.readFromResource(path: String) = fromStream(path.toInputStream())
 
     fun String.loadResource() = toInputStream().use { it.reader().readText() }

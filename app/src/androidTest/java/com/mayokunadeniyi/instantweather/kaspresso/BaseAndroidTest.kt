@@ -7,9 +7,11 @@ import com.infeez.mock.ScenarioBuilder
 import com.infeez.mock.mockScenario
 import com.kaspersky.kaspresso.testcases.core.testcontext.TestContext
 import com.mayokunadeniyi.instantweather.InstantWeatherApplication
+import com.mayokunadeniyi.instantweather.data.source.repository.WeatherRepository
 import com.mayokunadeniyi.instantweather.kaspresso.di.DaggerTestAppComponent
 import com.mayokunadeniyi.instantweather.kaspresso.rule.DisableAnimationsRule
 import com.mayokunadeniyi.instantweather.kaspresso.rule.DisableVirtualKeyboardRule
+import kotlinx.coroutines.runBlocking
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.Before
 import org.junit.Rule
@@ -30,6 +32,8 @@ open class BaseAndroidTest : BaseParametrizedTest() {
 
     private lateinit var server: MockWebServer
 
+    lateinit var weatherRepository: WeatherRepository
+
     @Before
     open fun setUp() {
         val instrumentation = InstrumentationRegistry.getInstrumentation()
@@ -42,6 +46,7 @@ open class BaseAndroidTest : BaseParametrizedTest() {
         appInjector.inject(app)
 
         server = appInjector.getMockWebServer()
+        weatherRepository = appInjector.getWeatherRepository()
     }
 
     fun createTest(
@@ -51,7 +56,7 @@ open class BaseAndroidTest : BaseParametrizedTest() {
         preconditions: String? = null,
         mockScenario: (ScenarioBuilder.() -> Unit)? = null,
         before: ((ScenarioBuilder) -> Unit)? = null,
-        init: (TestCaseDsl.() -> Unit)? = null,
+        init: (suspend TestCaseDsl.() -> Unit)? = null,
         after: (TestCaseDsl.() -> Unit)? = null,
         run: TestContext<TestCaseDsl>.(ScenarioBuilder) -> Unit
     ) {
@@ -79,7 +84,7 @@ open class BaseAndroidTest : BaseParametrizedTest() {
         }.after {
             after?.invoke(data!!)
         }.init {
-            init?.invoke(this)
+            runBlocking { init?.invoke(this@init) }
             data = this
         }.run {
             run(scenarioBuilder!!)

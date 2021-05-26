@@ -5,6 +5,7 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.pm.PackageManager.PERMISSION_DENIED
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -59,7 +60,7 @@ class HomeFragment : BaseFragment() {
         invokeLocationAction()
     }
 
-    private fun invokeLocationAction() {
+    private fun invokeLocationAction(grantResults: IntArray? = null) {
         when {
             allPermissionsGranted() -> {
                 viewModel.fetchLocationLiveData().observeOnce(
@@ -73,7 +74,7 @@ class HomeFragment : BaseFragment() {
                 )
             }
 
-            shouldShowRequestPermissionRationale() -> {
+            grantResults?.any { it == PERMISSION_DENIED } == true || shouldShowRequestPermissionRationale() -> {
                 AlertDialog.Builder(requireContext())
                     .setTitle(getString(R.string.location_permission))
                     .setMessage(getString(R.string.access_location_message))
@@ -272,7 +273,7 @@ class HomeFragment : BaseFragment() {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == LOCATION_REQUEST_CODE) {
-            invokeLocationAction()
+            invokeLocationAction(grantResults)
         }
     }
 
