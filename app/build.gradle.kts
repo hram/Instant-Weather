@@ -1,3 +1,4 @@
+import com.malinskiy.marathon.device.DeviceFeature
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -254,7 +255,11 @@ marathon {
         }
     }
 
-    testClassRegexes = listOf("^((?!Abstract).)*HomeTest\$")
+    screenRecordingPolicy = com.malinskiy.marathon.execution.policy.ScreenRecordingPolicy.ON_ANY
+    screenRecordConfiguration = com.malinskiy.marathon.android.ScreenRecordConfiguration(
+        DeviceFeature.VIDEO
+    )
+    testClassRegexes = listOf("^((?!Abstract).)*Test\$")
     uncompletedTestRetryQuota = 100
     ignoreFailures = false
     isCodeCoverageEnabled = true
