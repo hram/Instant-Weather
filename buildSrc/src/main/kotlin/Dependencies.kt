@@ -30,13 +30,11 @@ object Plugins {
     }
 
     const val gradleAndroid = "com.android.tools.build:gradle:${Version.gradleAndroidVersion}"
-    const val kotlinGradlePlugin =
-        "org.jetbrains.kotlin:kotlin-gradle-plugin:${Kotlin.Versions.kotlin}"
+    const val kotlinGradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Kotlin.Versions.kotlin}"
     const val googleServices = "com.google.gms:google-services:${Version.googleServices}"
-    const val crashlyticsPlugin =
-        "com.google.firebase:firebase-crashlytics-gradle:${Firebase.Versions.crashlytics_plugin}"
-    const val safeArgs =
-        "androidx.navigation:navigation-safe-args-gradle-plugin:${Navigation.Versions.navigation}"
+    const val crashlyticsPlugin = "com.google.firebase:firebase-crashlytics-gradle:${Firebase.Versions.crashlytics_plugin}"
+    const val safeArgs = "androidx.navigation:navigation-safe-args-gradle-plugin:${Navigation.Versions.navigation}"
+    const val marathon = "com.malinskiy.marathon:marathon-gradle-plugin:0.6.0"
 }
 
 

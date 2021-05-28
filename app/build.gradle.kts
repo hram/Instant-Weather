@@ -7,6 +7,7 @@ plugins {
     id("kotlin-kapt")
     id("androidx.navigation.safeargs.kotlin")
     id("com.google.firebase.crashlytics")
+    id("marathon")
 }
 
 val API_KEY = "API_KEY"
@@ -230,4 +231,37 @@ dependencies {
     androidTestImplementation("com.github.infeez:kotlin-mock-server:0.7.5")
     androidTestImplementation("com.jraska:falcon:2.1.1")
     androidTestImplementation("androidx.test.uiautomator:uiautomator:2.2.0")
+}
+
+marathon {
+    name = "Instant Weather"
+    baseOutputDir = "build/reports/marathon"
+
+    allureConfiguration {
+        enabled = false
+    }
+
+    batchingStrategy {
+        fixedSize {
+            size = 1
+        }
+    }
+
+    retryStrategy {
+        fixedQuota {
+            totalAllowedRetryQuota = 100
+            retryPerTestQuota = 1
+        }
+    }
+
+    testClassRegexes = listOf("^((?!Abstract).)*HomeTest\$")
+    uncompletedTestRetryQuota = 100
+    ignoreFailures = false
+    isCodeCoverageEnabled = true
+    fallbackToScreenshots = false
+    testOutputTimeoutMillis = 300_000
+    strictMode = false
+    debug = false
+    autoGrantPermission = false
+    applicationPmClear = true
 }

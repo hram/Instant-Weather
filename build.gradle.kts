@@ -11,6 +11,8 @@ buildscript {
         classpath (Plugins.kotlinGradlePlugin)
         classpath (Plugins.safeArgs)
         classpath (Plugins.crashlyticsPlugin)
+        classpath (Plugins.marathon)
+        classpath("io.qameta.allure:allure-gradle:2.5")
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }

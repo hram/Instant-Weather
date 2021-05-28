@@ -20,23 +20,6 @@ class SettingsTest : BaseAndroidTest() {
     private val precondition = "Приложение запускалось ранее и были выданы разрешения к данным о местоположении устройства."
 
     @Test
-    fun openSettingsAndCheckDefaultsTest() = createTest(sectionId,
-        "Переход в настройки и проверка дефолтных значений",
-        "По умолчанию:\n"
-            + "- время кеша 900 секунд\n"
-            + "- системная тема приложеия\n"
-            + "- температура в цельсиях",
-        precondition, {
-            add(Mocks.weatherNovayaGollandiyaSuccess)
-        },
-        before = {
-            activityTestRule.launchActivity(null)
-        }) {
-        stepStartAppAndCheckHomeScreen()
-        stepMainScreenClickSettingsAndCheck()
-    }
-
-    @Test
     fun openSettingsAndChangeCacheTest() = createTest(sectionId,
         "Изменение времени жизни кеша",
         "Переход в настройки, запуск редактирования времени жизни кеша и проверка что значение изменилось",
