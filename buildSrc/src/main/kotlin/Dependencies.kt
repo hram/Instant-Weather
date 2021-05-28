@@ -46,12 +46,9 @@ object Kotlin {
     }
 
     const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
-    const val coroutinesAndroid =
-        "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}"
-    const val coroutinesCore =
-        "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}"
-    const val coroutineTest =
-        "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"
+    const val coroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}"
+    const val coroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}"
+    const val coroutineTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"
 }
 
 
@@ -75,10 +72,8 @@ object AndroidX : Libraries {
     const val coreKtx = "androidx.core:core-ktx:${Versions.androidx_core}"
     const val appCompat = "androidx.appcompat:appcompat:${Versions.appCompat}"
     const val liveData = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifeCycle}"
-    const val viewModel =
-        "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifeCycle}"
-    const val lifeCycleCommon =
-        "androidx.lifecycle:lifecycle-common-java8:${Versions.lifeCycle}"
+    const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifeCycle}"
+    const val lifeCycleCommon = "androidx.lifecycle:lifecycle-common-java8:${Versions.lifeCycle}"
     const val legacySupport = "androidx.legacy:legacy-support-v4:${Versions.legacy}"
     const val preferences = "androidx.preference:preference-ktx:${Versions.preferences}"
 
@@ -156,8 +151,7 @@ object Navigation : Libraries {
         const val navigation = "2.3.3"
     }
 
-    const val navigationFragment =
-        "androidx.navigation:navigation-fragment-ktx:${Versions.navigation}"
+    const val navigationFragment = "androidx.navigation:navigation-fragment-ktx:${Versions.navigation}"
     const val navigationUi = "androidx.navigation:navigation-ui-ktx:${Versions.navigation}"
 
     override val components: List<String>
@@ -177,17 +171,12 @@ object View : Libraries {
     }
 
     const val material = "com.google.android.material:material:${Versions.material}"
-    const val constraintLayout =
-        "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
+    const val constraintLayout = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
     const val viewPager = "androidx.viewpager2:viewpager2:${Versions.viewPager}"
-    const val swipeRefresh =
-        "androidx.swiperefreshlayout:swiperefreshlayout:${Versions.swipeRefresh}"
+    const val swipeRefresh = "androidx.swiperefreshlayout:swiperefreshlayout:${Versions.swipeRefresh}"
     const val recyclerView = "androidx.recyclerview:recyclerview:${Versions.recyclerView}"
 
-    override val components = listOf(
-        material, constraintLayout, viewPager, swipeRefresh,
-        recyclerView
-    )
+    override val components = listOf(material, constraintLayout, viewPager, swipeRefresh, recyclerView)
 }
 
 

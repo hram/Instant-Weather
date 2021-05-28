@@ -19,13 +19,14 @@ fun getProperty(key: String): String {
 
     val fl = rootProject.file("apikey.properties")
 
-    (fl.exists())?.let {
+    if (fl.exists()) {
         fl.forEachLine {
             items[it.split("=")[0]] = it.split("=")[1]
         }
+        return items[key] ?: ""
+    } else {
+        return "\"$key\""
     }
-
-    return items[key] ?: ""
 }
 
 
@@ -235,7 +236,6 @@ dependencies {
 
 marathon {
     name = "Instant Weather"
-    baseOutputDir = "build/reports/marathon"
 
     allureConfiguration {
         enabled = false
